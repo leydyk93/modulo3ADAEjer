@@ -1,0 +1,34 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.tablero {
+  display: flex;
+  width: 250px;
+  flex-wrap: wrap;
+}
+
+p {
+  font-size: 35px;
+}
+
+button {
+  background-color: #00c853;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 15px 32px;
+}
+
+button:hover {
+  background-color: #009624;
+  text-transform: uppercase;
+}
