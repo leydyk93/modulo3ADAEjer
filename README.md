@@ -1,6 +1,6 @@
 # Solución ejercicios Modulo 3 y Modulo 4
 
-### Clase 32
+### Clase 38
 
 El archivo \*main.js contiene la solución para los siguientes ejercicios
 
