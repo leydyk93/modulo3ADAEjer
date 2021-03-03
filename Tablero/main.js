@@ -1,7 +1,31 @@
 const tab = document.getElementById("tablero");
+const texto = document.getElementById("texto");
 
 let items = ["😜", "🍉", "🥥", "🍋", "🥝", "🍒", "🍑", "🐶", "🪀"];
 let level = 4;
+let contTime = 0;
+let process;
+let timeJuego = 30;
+
+const controTiempo = () => {
+  clearInterval(process);
+  texto.innerHTML = 0;
+  cont = timeJuego;
+  process = setInterval(() => {
+    if (cont > 0) {
+      cont--;
+      texto.innerHTML = cont;
+    } else {
+      finJuego();
+    }
+  }, 1000);
+};
+
+const finJuego = () => {
+  alert("El juego ha terminado, lo reiniciare automaticamente");
+  clearInterval(process);
+  controTiempo();
+};
 
 const createTablero = (level) => {
   tab.innerHTML = "";
@@ -53,4 +77,6 @@ const getElement = () => {
   }
 };
 
+//inicio de juego
+controTiempo();
 createTablero(level);

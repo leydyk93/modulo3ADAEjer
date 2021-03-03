@@ -47,3 +47,8 @@ button:hover {
   background-color: #009624;
   text-transform: uppercase;
 }
+
+#texto {
+  font-size: 2rem;
+  color: #009624;
+}
