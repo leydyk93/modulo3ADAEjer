@@ -30,6 +30,10 @@ p {
   font-size: 35px;
 }
 
+p:hover {
+  background-color: #f9a825;
+}
+
 button {
   background-color: #00c853; /* Green */
   border: none;
