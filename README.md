@@ -1,4 +1,4 @@
-# Proycecto de AhorrAdas
+# Proyecto de AhorrAdas
 
 ### Funcionalidades activas
 
