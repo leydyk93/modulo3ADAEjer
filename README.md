@@ -1,3 +1,11 @@
+# Proycecto de AhorrAdas
+
+### Funcionalidades activas
+
+- Control de la visualización de las diferentes secciones (pages)
+- Agregar, Eliminar Categorias
+- Nuevas operaciones select dinámico
+
 # Solución ejercicios Modulo 3 y Modulo 4
 
 ### Clase 38
