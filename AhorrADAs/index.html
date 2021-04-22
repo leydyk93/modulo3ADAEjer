@@ -154,13 +154,26 @@
           <div class="field">
             <label class="label">Descripción</label>
             <div class="control">
-              <input class="input" type="text" placeholder="" />
+              <input
+                class="input"
+                type="text"
+                placeholder=""
+                data-owner="new-operation"
+                name="description"
+              />
             </div>
           </div>
           <div class="field">
             <label class="label">Monto</label>
             <div class="control">
-              <input class="input" type="number" placeholder="0" value="0" />
+              <input
+                class="input"
+                type="number"
+                placeholder="0"
+                value="0"
+                data-owner="new-operation"
+                name="monto"
+              />
             </div>
           </div>
 
@@ -168,7 +181,7 @@
             <label class="label">Tipo</label>
             <div class="control">
               <div class="select is-fullwidth">
-                <select>
+                <select data-owner="new-operation" name="type">
                   <option value="Ganancia">Ganancia</option>
                   <option value="Gasto">Gasto</option>
                 </select>
@@ -180,7 +193,11 @@
             <label class="label">Categoria</label>
             <div class="control">
               <div class="select is-fullwidth">
-                <select id="new-op-categories"></select>
+                <select
+                  id="new-op-categories"
+                  data-owner="new-operation"
+                  name="category"
+                ></select>
               </div>
             </div>
           </div>
@@ -188,13 +205,24 @@
           <div class="field">
             <label class="label">Fecha</label>
             <div class="control">
-              <input class="input" type="date" />
+              <input
+                class="input"
+                type="date"
+                data-owner="new-operation"
+                name="date"
+              />
             </div>
           </div>
 
           <div class="buttons mt-5 is-flex is-justify-content-flex-end">
             <button class="button is-light">Cancelar</button>
-            <button class="button is-info">Agregar</button>
+            <button
+              class="button is-info"
+              type="button"
+              onclick="addOperation()"
+            >
+              Agregar
+            </button>
           </div>
         </form>
       </section>

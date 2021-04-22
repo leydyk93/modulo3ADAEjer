@@ -4,6 +4,10 @@ const categoriesSelec = document.getElementById("new-op-categories");
 const listCategories = document.getElementById("categories-list");
 const inputNewCategory = document.getElementById("category-input-new");
 
+const formNewOperation = document.querySelectorAll(
+  "input[data-owner], select[data-owner]"
+);
+
 console.log(sections, "Objecto");
 const sectionsList = [...sections];
 
@@ -25,6 +29,8 @@ const categories = [
   { id: "3", name: "Trabajo" },
   { id: "4", name: "Comida" },
 ];
+
+const listOperations = [];
 
 // categories operations
 const addCategories = () => {
@@ -86,6 +92,34 @@ const setValueCategoriesSelect = () => {
     (category, index) =>
       (categoriesSelec.options[index] = new Option(category.name, category.id))
   );
+};
+
+//Operaciones
+const addOperation = () => {
+  let operation = {};
+  console.log(formNewOperation);
+  for (let i = 0; i < formNewOperation.length; i++) {
+    operation[formNewOperation[i].getAttribute("name")] =
+      formNewOperation[i].value;
+  }
+  console.log(operation);
+  listOperations.push(operation);
+  addLocalStorage("operations", listOperations);
+};
+
+const listarOperations = () => {
+  if (localStorage.getItem("opeartions")) {
+    listOperations = getLocalStorage("operations");
+  }
+};
+
+//local Storage
+const addLocalStorage = (property, value) => {
+  localStorage.setItem(property, JSON.stringify(value));
+};
+
+const getLocalStorage = (property) => {
+  return JSON.parse(localStorage.getItem(property));
 };
 
 const main = () => {
