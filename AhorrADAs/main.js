@@ -7,6 +7,7 @@ const inputNewCategory = document.getElementById("category-input-new");
 const formNewOperation = document.querySelectorAll(
   "input[data-owner], select[data-owner]"
 );
+const listOperations = document.getElementById("operations");
 
 console.log(sections, "Objecto");
 const sectionsList = [...sections];
@@ -30,7 +31,7 @@ const categories = [
   { id: "4", name: "Comida" },
 ];
 
-const listOperations = [];
+let operations = [];
 
 // categories operations
 const addCategories = () => {
@@ -99,18 +100,64 @@ const addOperation = () => {
   let operation = {};
   console.log(formNewOperation);
   for (let i = 0; i < formNewOperation.length; i++) {
+    operation["id"] = operations.length;
     operation[formNewOperation[i].getAttribute("name")] =
       formNewOperation[i].value;
   }
   console.log(operation);
-  listOperations.push(operation);
-  addLocalStorage("operations", listOperations);
+  operations.push(operation);
+  addLocalStorage("operations", operations);
+  listarOperations();
+  controlVisibility("home");
 };
 
 const listarOperations = () => {
-  if (localStorage.getItem("opeartions")) {
-    listOperations = getLocalStorage("operations");
+  listOperations.innerHTML = "";
+  if (localStorage.getItem("operations")) {
+    operations = getLocalStorage("operations");
+    console.log(operations, "Operaciones desde localstorage");
+    if (operations.length > 0) {
+      let itemsOperations = "";
+      operations.forEach((operation) => {
+        let node = `<div class="columns has-text-weight-medium is-mobile">
+        <div class="column">${operation.description}</div>
+        <div class="column">
+          <span class="tag is-info is-light is-medium"
+            >${operation.category}</span
+          >
+        </div>
+        <div class="column">${operation.monto}</div>
+        <div class="column">${operation.date}</div>
+        <div class="column">
+          <button class="button is-success is-inverted is-small"  onclick="editOperation(${operation.id})">
+            <i class="far fa-edit"></i>
+          </button>
+          <button class="button is-danger is-inverted is-small" onclick="deleteOperation(${operation.id})">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>`;
+        itemsOperations += node;
+      });
+      listOperations.innerHTML = itemsOperations;
+    }
   }
+};
+
+const deleteOperation = (id) => {
+  console.log(id, "Quiero eliminar");
+  const value = operations.findIndex((e) => e.id == id);
+  console.log(value, "quiero eliminar", id);
+  if (value >= 0) {
+    operations.splice(value, 1);
+    console.log(operations);
+    addLocalStorage("operations", operations);
+    listarOperations();
+  }
+};
+
+const editOperation = (id) => {
+  console.log(id, "Quiero editar");
 };
 
 //local Storage
@@ -125,6 +172,7 @@ const getLocalStorage = (property) => {
 const main = () => {
   setValueCategoriesSelect();
   categoriesFromList();
+  listarOperations();
 };
 
 main();
