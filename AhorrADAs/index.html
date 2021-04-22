@@ -223,7 +223,9 @@
           </div>
 
           <div class="buttons mt-5 is-flex is-justify-content-flex-end">
-            <button class="button is-light">Cancelar</button>
+            <button class="button is-light" type="button" onclick="cancelar()">
+              Cancelar
+            </button>
             <button
               class="button is-info"
               type="button"
@@ -261,6 +263,87 @@
       <!-- Reportes -->
       <section id="reports" class="is-hidden">
         <h1 class="title">Reportes</h1>
+      </section>
+      <!--Edit Operation-->
+      <section id="edit-operation" class="is-hidden">
+        <form class="box">
+          <h1 class="title">Editar Operación</h1>
+          <div class="field">
+            <label class="label">Descripción</label>
+            <div class="control">
+              <input
+                class="input"
+                type="text"
+                placeholder=""
+                data-owner="edit-operation"
+                name="description"
+              />
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Monto</label>
+            <div class="control">
+              <input
+                class="input"
+                type="number"
+                placeholder="0"
+                value="0"
+                data-owner="edit-operation"
+                name="monto"
+              />
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Tipo</label>
+            <div class="control">
+              <div class="select is-fullwidth">
+                <select data-owner="edit-operation" name="type">
+                  <option value="Ganancia">Ganancia</option>
+                  <option value="Gasto">Gasto</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Categoria</label>
+            <div class="control">
+              <div class="select is-fullwidth">
+                <select
+                  id="edit-op-categories"
+                  data-owner="edit-operation"
+                  name="category"
+                ></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Fecha</label>
+            <div class="control">
+              <input
+                class="input"
+                type="date"
+                data-owner="edit-operation"
+                name="date"
+              />
+            </div>
+          </div>
+
+          <div class="buttons mt-5 is-flex is-justify-content-flex-end">
+            <button class="button is-light" type="button" onclick="cancelar()">
+              Cancelar
+            </button>
+            <button
+              class="button is-info"
+              type="button"
+              onclick="confirmEditOperation()"
+            >
+              Editar
+            </button>
+          </div>
+        </form>
       </section>
     </main>
 
