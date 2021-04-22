@@ -1,13 +1,18 @@
 const options = document.getElementsByClassName("navbar-item");
 const sections = document.getElementsByTagName("section");
 const categoriesSelec = document.getElementById("new-op-categories");
+const categoriesEdit = document.getElementById("edit-op-categories");
 const listCategories = document.getElementById("categories-list");
 const inputNewCategory = document.getElementById("category-input-new");
 
 const formNewOperation = document.querySelectorAll(
-  "input[data-owner], select[data-owner]"
+  "#new-operation input[data-owner], #new-operation select[data-owner]"
 );
 const listOperations = document.getElementById("operations");
+
+const formEditOperation = document
+  .querySelector("#edit-operation")
+  .querySelectorAll("input[data-owner], select[data-owner]");
 
 console.log(sections, "Objecto");
 const sectionsList = [...sections];
@@ -23,6 +28,13 @@ const controlVisibility = (page) => {
   console.log(sectionsList);
 };
 
+const generateId = () => {
+  let p1 = Math.floor(Math.random() * 0x10000).toString(16);
+  //console.log(p1, p1.toString(16));
+  let p2 = new Date().getTime();
+  return `${p1}${p2}`;
+};
+
 const categories = [
   { id: "0", name: "Servicios" },
   { id: "1", name: "Trasporte" },
@@ -32,14 +44,14 @@ const categories = [
 ];
 
 let operations = [];
+let operationEditar = {};
 
 // categories operations
 const addCategories = () => {
   console.log("ejemplo");
   console.log(inputNewCategory.value);
   if (inputNewCategory.value != "") {
-    console.log(categories.length, "nuevo id es");
-    categories.unshift({ id: categories.length, name: inputNewCategory.value });
+    categories.unshift({ id: generateId(), name: inputNewCategory.value });
     setValueCategoriesSelect();
     categoriesFromList();
     inputNewCategory.value = "";
@@ -66,33 +78,41 @@ const deleteCategory = (category) => {
 
 const categoriesFromList = () => {
   listCategories.innerHTML = "";
-  tagsCategories = "";
+  //tagsCategories = "";
   categories.forEach((category) => {
-    let node = `
+    let node = document.createElement("div");
+    node.innerHTML = `
     <div class="columns">
       <div class="column">
         <span class="tag is-info is-light is-medium">${category.name}</span>
       </div>
       <div class="column">
         <div class="buttons">
-          <button class="button is-white" onclick="editCategory(${category.id})">Editar</button>
-          <button class="button is-white" onclick="deleteCategory(${category.id})">Eliminar</button>
+          <button class="button is-white">Editar</button>
+          <button class="button is-white">Eliminar</button>
         </div>
       </div>
     </div>
   `;
-    tagsCategories += node;
+
+    let optionsButtons = node.querySelectorAll(".button");
+    optionsButtons[0].onclick = () => {
+      editCategory(category.id);
+    };
+    optionsButtons[1].onclick = () => {
+      deleteCategory(category.id);
+    };
+    listCategories.appendChild(node);
   });
-  listCategories.innerHTML = tagsCategories;
 };
 
 // new operations
 const setValueCategoriesSelect = () => {
   categoriesSelec.innerHTML = "";
-  categories.forEach(
-    (category, index) =>
-      (categoriesSelec.options[index] = new Option(category.name, category.id))
-  );
+  categories.forEach((category, index) => {
+    categoriesSelec.options[index] = new Option(category.name, category.name);
+    categoriesEdit.options[index] = new Option(category.name, category.name);
+  });
 };
 
 //Operaciones
@@ -100,7 +120,7 @@ const addOperation = () => {
   let operation = {};
   console.log(formNewOperation);
   for (let i = 0; i < formNewOperation.length; i++) {
-    operation["id"] = operations.length;
+    operation["id"] = generateId();
     operation[formNewOperation[i].getAttribute("name")] =
       formNewOperation[i].value;
   }
@@ -117,29 +137,38 @@ const listarOperations = () => {
     operations = getLocalStorage("operations");
     console.log(operations, "Operaciones desde localstorage");
     if (operations.length > 0) {
-      let itemsOperations = "";
+      //let itemsOperations = "";
       operations.forEach((operation) => {
-        let node = `<div class="columns has-text-weight-medium is-mobile">
+        let node = document.createElement("div");
+        node.innerHTML = `<div class="columns has-text-weight-medium is-mobile">
         <div class="column">${operation.description}</div>
         <div class="column">
           <span class="tag is-info is-light is-medium"
             >${operation.category}</span
           >
         </div>
-        <div class="column">${operation.monto}</div>
         <div class="column">${operation.date}</div>
+        <div class="column">${operation.monto}</div>
         <div class="column">
-          <button class="button is-success is-inverted is-small"  onclick="editOperation(${operation.id})">
+          <button class="button is-success is-inverted is-small" >
             <i class="far fa-edit"></i>
           </button>
-          <button class="button is-danger is-inverted is-small" onclick="deleteOperation(${operation.id})">
+          <button class="button is-danger is-inverted is-small" >
             <i class="fas fa-trash"></i>
           </button>
         </div>
       </div>`;
-        itemsOperations += node;
+
+        let optionsButtons = node.querySelectorAll(".button");
+        optionsButtons[0].onclick = () => {
+          editOperation(operation.id);
+        };
+        optionsButtons[1].onclick = () => {
+          deleteOperation(operation.id);
+        };
+
+        listOperations.appendChild(node);
       });
-      listOperations.innerHTML = itemsOperations;
     }
   }
 };
@@ -157,7 +186,39 @@ const deleteOperation = (id) => {
 };
 
 const editOperation = (id) => {
+  controlVisibility("edit-operation");
   console.log(id, "Quiero editar");
+  operationEditar = operations.find((operation) => operation.id === id);
+  console.log(operationEditar, "item a editar");
+  for (let i = 0; i < formEditOperation.length; i++) {
+    formEditOperation[i].value =
+      operationEditar[formEditOperation[i].getAttribute("name")];
+    // console.log(
+    //   formEditOperation[i].getAttribute("name"),
+    //   operationEditar[formEditOperation[i].getAttribute("name")]
+    // );
+  }
+};
+
+const confirmEditOperation = () => {
+  // let operation = {};
+  //if (Object.keys(operationEditar).length !== 0) {
+  //console.log(operationEditar);
+  for (let i = 0; i < formEditOperation.length; i++) {
+    operationEditar[formEditOperation[i].getAttribute("name")] =
+      formEditOperation[i].value;
+  }
+
+  const posOperation = operations.findIndex((e) => e.id === operationEditar.id);
+  operations.splice(posOperation, 1, operationEditar);
+
+  console.log(operations);
+  addLocalStorage("operations", operations);
+  listarOperations();
+};
+
+const cancelar = () => {
+  controlVisibility("home");
 };
 
 //local Storage
