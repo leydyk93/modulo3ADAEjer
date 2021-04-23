@@ -215,6 +215,7 @@ const confirmEditOperation = () => {
   console.log(operations);
   addLocalStorage("operations", operations);
   listarOperations();
+  controlVisibility("home");
 };
 
 const cancelar = () => {
