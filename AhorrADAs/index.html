@@ -50,7 +50,7 @@
           <a class="navbar-item" onclick="controlVisibility('categories')">
             <i class="fas fa-tags mr-2"></i>Categorias
           </a>
-          <a class="navbar-item" onclick="controlVisibility('reports')">
+          <a class="navbar-item" onclick="generateReports()">
             <i class="fas fa-chart-pie mr-2"></i>Reporte
           </a>
         </div>
@@ -137,7 +137,7 @@
                 <div class="column">
                   <button
                     class="button is-info"
-                    onclick="controlVisibility('new-operation')"
+                    onclick="showFormNewOperation()"
                   >
                     <i class="fas fa-plus mr-1 is-small"></i>Nueva Operación
                   </button>
@@ -157,7 +157,7 @@
       </section>
       <!-- new operation -->
       <section id="new-operation" class="is-hidden">
-        <form class="box">
+        <form class="box" id="form-new-operation">
           <h1 class="title">Nueva Operación</h1>
           <div class="field">
             <label class="label">Descripción</label>
@@ -262,7 +262,33 @@
       </section>
       <!-- Reportes -->
       <section id="reports" class="is-hidden">
-        <h1 class="title">Reportes</h1>
+        <div class="box">
+          <h1 class="title mb-3">Reportes</h1>
+          <div class="mb-4">
+            <h2 class="is-size-4 mb-5">Resumen</h2>
+            <div id="report-resumen"></div>
+          </div>
+          <div class="mb-4">
+            <h2 class="is-size-4 mb-5">Totales por categoria</h2>
+            <div class="columns has-text-weight-medium is-mobile mb-5">
+              <div class="column">Categoria</div>
+              <div class="column">Ganancias</div>
+              <div class="column">Gasto</div>
+              <div class="column">Balance</div>
+            </div>
+            <div id="report-total-categories"></div>
+          </div>
+          <div id="report-total-month" class="mb-4">
+            <h2 class="is-size-4">Totales por mes</h2>
+            <div class="columns has-text-weight-medium is-mobile">
+              <div class="column">Nombre del criterio</div>
+              <div class="column">
+                <span class="tag is-info is-light is-medium">Categoria</span>
+              </div>
+              <div class="column">otra</div>
+            </div>
+          </div>
+        </div>
       </section>
       <!--Edit Operation-->
       <section id="edit-operation" class="is-hidden">
