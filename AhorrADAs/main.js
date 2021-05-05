@@ -248,6 +248,12 @@ const cancelar = () => {
 //reports
 generateReports = () => {
   controlVisibility("reports");
+  //inicializamos nuestras secciones de reports
+  reportsSections = {
+    resumen: [],
+    totalesCategory: [],
+    totalesMes: [],
+  };
   let totalReportCategory = [];
   categories.forEach((category) => {
     let itemReport = {
