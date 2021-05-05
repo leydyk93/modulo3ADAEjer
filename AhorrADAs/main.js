@@ -19,6 +19,7 @@ const totalesCategoryReport = document.getElementById(
   "report-total-categories"
 );
 const reportResumen = document.getElementById("report-resumen");
+const reportsMonth = document.getElementById("report-total-mes");
 
 console.log(sections, "Objecto");
 const sectionsList = [...sections];
@@ -269,11 +270,13 @@ generateReports = () => {
     totalReportCategory.push(itemReport);
   });
   reportsSections.totalesCategory = totalReportCategory;
-  console.log(totalReportCategory);
+  console.log("Totales Category", totalReportCategory);
 
   let maxGanancia = getMaximosCategory("ganancia");
   let maxGasto = getMaximosCategory("gasto");
   let maxBalance = getMaximosCategory("balance");
+
+  console.log("Maximos Category", maxGanancia, maxGasto, maxBalance);
 
   reportsSections.resumen.push({
     title: "Categoría con mayor ganancia",
@@ -291,11 +294,20 @@ generateReports = () => {
     monto: maxBalance.balance,
   });
   console.log(reportsSections.resumen);
+
+  reportsByMonth();
+
   paintReports();
 };
 
 const getMaximosCategory = (campo) => {
   return reportsSections.totalesCategory.reduce((prev, current) =>
+    prev[campo] > current[campo] ? prev : current
+  );
+};
+
+const getMaximosMes = (campo) => {
+  return reportsSections.totalesMes.reduce((prev, current) =>
     prev[campo] > current[campo] ? prev : current
   );
 };
@@ -328,6 +340,69 @@ paintReports = () => {
     </div>
   `;
     reportResumen.appendChild(node);
+  });
+
+  reportsMonth.innerHTML = "";
+  reportsSections.totalesMes.forEach((item) => {
+    let node = document.createElement("div");
+    node.innerHTML = `
+    <div class="columns has-text-weight-medium is-mobile">
+    <div class="column">${item.mesName}</div>
+    <div class="column">${item.ganancia}</div>
+    <div class="column">${item.gasto}</div>
+    <div class="column">${item.balance}</div>
+  </div>
+  `;
+    reportsMonth.appendChild(node);
+  });
+};
+
+const reportsByMonth = () => {
+  let totalesMes = [];
+  for (let mes = 0; mes <= 12; mes++) {
+    let datex = new Date(2021, mes, 04);
+    let month = datex.toLocaleString("default", { month: "long" });
+    //console.log("EJEMPLO", mes, datex, month);
+    let itemReport = {
+      mes: mes,
+      mesName: month,
+      ganancia: 0,
+      gasto: 0,
+      balance: 0,
+    };
+    operations.forEach((operation) => {
+      let date = new Date(operation.date);
+      if (mes === date.getMonth()) {
+        if (operation.type === "Gasto") {
+          itemReport.gasto += parseFloat(operation.monto);
+        }
+        if (operation.type === "Ganancia") {
+          itemReport.ganancia += parseFloat(operation.monto);
+        }
+      }
+    });
+    itemReport.balance = itemReport.ganancia - itemReport.gasto;
+    if (itemReport.ganancia !== 0 || itemReport.gasto !== 0) {
+      totalesMes.push(itemReport);
+    }
+  }
+  reportsSections.totalesMes = totalesMes;
+  console.log("Totales Mes", totalesMes);
+
+  let maxGananciaMes = getMaximosMes("ganancia");
+  let maxGastoMes = getMaximosMes("gasto");
+
+  console.log("MES", maxGananciaMes, maxGastoMes);
+
+  reportsSections.resumen.push({
+    title: "Mes con mayor ganancia",
+    category: maxGananciaMes.mesName,
+    monto: maxGananciaMes.ganancia,
+  });
+  reportsSections.resumen.push({
+    title: "Mes con mayor gasto",
+    category: maxGastoMes.mesName,
+    monto: maxGastoMes.gasto,
   });
 };
 
